@@ -1,0 +1,842 @@
+---
+title: "Engenharia reversa — Landing Page Pantanal Geradores"
+source: "Behance · gallery/256684915/Landing-Page-Industrial-Pantanal-Geradores"
+capturas: 17 screenshots desktop (Chrome/macOS, janela 1440×900 estimada)
+mobile: "não fornecido"
+data: 2026-11-02
+---
+
+{/* Legenda de confiança usada em todo o documento:
+    [C] Confirmado    — claramente observável nas capturas
+    [E] Estimado      — inferido visualmente com boa aproximação
+    [I] Indeterminado — impossível de identificar só pelas capturas */}
+
+# Engenharia reversa: Landing Page Pantanal Geradores
+
+> **Aviso sobre as referências.** O briefing pedia uma captura desktop e uma mobile.
+> Foram fornecidas **17 capturas, todas desktop**, cobrindo a página do topo ao rodapé.
+> Tudo que diz respeito ao mobile neste documento é **[I] Indeterminado** e aparece
+> como **proposta de implementação**, nunca como fato observado.
+
+## 0. Como ler as medidas
+
+- As capturas têm 2000 px de largura e mostram uma janela do Chrome em macOS. A proporção
+  da janela (1,6:1) e a altura da barra de menus indicam um viewport de **≈1440 px CSS**
+  **[E]**. Fator de conversão usado: `1 px CSS ≈ 1,39 px da imagem` (ou `px CSS = px imagem × 0,72`).
+- Todas as medidas em px CSS são **estimativas** com margem de ±8 %. Valores "redondos"
+  (16, 24, 48, 1140) são propostas de implementação coerentes com a medição, não valores confirmados.
+- Área visível do navegador: ≈689 px CSS de altura **[E]**.
+- Três elementos nas capturas **não fazem parte da página**: a etiqueta laranja "Partial" no canto
+  inferior direito (overlay de extensão de captura), a miniatura flutuante do macOS no canto inferior
+  direito, e a barra de favoritos do Chrome.
+
+---
+
+## 1. Análise visual geral
+
+### 1.1 Estrutura e ordem das seções [C]
+
+| # | Seção | Fundo | Largura do conteúdo |
+|---|-------|-------|---------------------|
+| 0 | Barra superior ("Atendimento 24 horas, em todo o Mato Grosso.") | lima | full-bleed, texto centrado |
+| 1 | Navbar flutuante (card branco) | branco | container |
+| 2 | Hero (título + técnico + selo circular) | navy + foto | container, foto sangra à direita |
+| 3 | Soluções (3 cards) | branco | container |
+| 4 | Nossa abordagem técnica (2 fotos + lista) | branco | container |
+| 5 | Por que a Pantanal (4 cards + CTA) | navy, bloco arredondado | container |
+| 6 | Nossos serviços (carrossel de cards com foto) | cinza-azulado claro | cards sangram as duas bordas |
+| 7 | Como funciona o atendimento (timeline 01/02/03) | branco | container |
+| 8 | Instalações e trabalhos realizados (galeria masonry) | navy, bordas onduladas | container |
+| 9 | Área de atendimento (foto + mapa MT + chips) | branco | container |
+| 10 | Depoimentos (2 linhas de cards em carrossel) | cinza-azulado claro | cards sangram as duas bordas |
+| 11 | Contato (card com foto + formulário) | mesmo fundo claro | container |
+| 12 | Perguntas frequentes (acordeão) | azul-lavanda muito claro, borda ondulada | container |
+| 13 | Footer (4 colunas) | navy, cantos superiores arredondados | container |
+
+Elementos flutuantes/fixos:
+
+- Botão circular lima do WhatsApp na borda direita, visível apenas na captura 3 (seção Soluções).
+  Posição fixa é **hipótese** **[I]**.
+
+### 1.2 Hierarquia visual [C]
+
+1. Títulos de seção (H2) muito grandes, peso médio, em navy sobre claro ou branco sobre navy.
+2. Pílulas/eyebrows em caixa alta com tracking largo introduzindo cada seção.
+3. Lima (verde-limão) reservado para: CTAs, ícones em caixas, acentos (traços, barra de progresso,
+   estrelas, badges numerados, mapa do estado, selo), um card de destaque e textos curtos de ênfase.
+4. Corpo de texto em cinza médio, nunca preto.
+5. Fotos sempre com raio grande e, quando há texto por cima, overlay navy em gradiente.
+
+### 1.3 Alinhamento e ritmo [E]
+
+- Container de conteúdo ≈1108 px (de x=228 a x=1770 na imagem). Margens laterais no viewport ≈165 px.
+- Todas as seções respeitam a mesma borda esquerda do conteúdo, inclusive o conteúdo do hero e do footer.
+- Títulos de seção têm duas variantes: alinhados à esquerda com parágrafo na coluna direita
+  (Soluções, Projetos) ou centrados (Por que, Como funciona, Depoimentos).
+- Respiro vertical entre o fim de um bloco e o início do próximo: ≈140–150 px (padding ≈72–80 px
+  em cada seção) **[E]**.
+- Divisores de seção não são linhas retas: a página alterna cantos arredondados grandes
+  (≈32–40 px), "abas" semicirculares com chevron, e ondas assimétricas em SVG.
+
+### 1.4 Diferenças desktop/mobile
+
+**[I]** Não há captura mobile. Veja a proposta de responsividade na seção 4.2.
+
+---
+
+## 2. Design System
+
+### 2.1 Paleta [E]
+
+Valores lidos das capturas (renderização com compressão WebP, portanto aproximados).
+
+| Token | HEX | RGB | Uso |
+|-------|-----|-----|-----|
+| `--navy` (primária escura) | `#10194D` | 16, 25, 77 | fundo do hero, seções 5/8, footer, card 3, caixas de ícone escuras, títulos |
+| `--navy-700` | `#1C2659` | 28, 38, 89 | pílula sobre navy, avatar escuro dos depoimentos |
+| `--lime` (primária de ação) | `#BFE24A` | 191, 226, 74 | botões, ícones, acentos, card 2, badges numerados, mapa |
+| `--lime-300` | `#D7EE7E` | 215, 238, 126 | ponta clara do gradiente dos CTAs |
+| `--lime-600` | `#B6DB38` | 182, 219, 56 | ponta escura do gradiente dos CTAs |
+| `--lime-100` | `#E9F3D2` | 233, 243, 210 | fundo das pílulas sobre claro |
+| `--lime-text` | `#6F7F4E` | 111, 127, 78 | texto das pílulas sobre claro |
+| `--bg` | `#FFFFFF` | 255, 255, 255 | seções 3, 4, 7, 9 |
+| `--bg-soft` | `#F2F5FA` | 242, 245, 250 | seções 6, 10, 11 |
+| `--bg-soft-2` | `#E9EEF7` | 233, 238, 247 | seção 12 (FAQ), um tom abaixo de `--bg-soft` |
+| `--surface` | `#FFFFFF` | 255, 255, 255 | cards, inputs, navbar |
+| `--surface-tint` | `#F7F9FC` | 247, 249, 252 | card 1 de Soluções |
+| `--chip` | `#EDF0F6` | 237, 240, 246 | chips de cidades, toggle fechado do FAQ |
+| `--text` | `#10194D` | 16, 25, 77 | títulos, labels, nomes |
+| `--text-body` | `#5C6680` | 92, 102, 128 | parágrafos sobre claro |
+| `--text-muted` | `#7B8497` | 123, 132, 151 | eyebrows sem pílula, textos auxiliares |
+| `--text-quote` | `#3B4560` | 59, 69, 96 | texto das citações nos depoimentos |
+| `--text-on-dark` | `#D5DAEA` | 213, 218, 234 | subtítulo do hero |
+| `--text-on-dark-muted` | `#C4CADF` | 196, 202, 223 | parágrafos e links sobre navy |
+| `--eyebrow-on-dark` | `#AEB5D3` | 174, 181, 211 | eyebrow "INSTALAÇÕES E TRABALHOS REALIZADOS" |
+| `--border` | `#D9DEE8` | 217, 222, 232 | borda dos inputs, trilho da barra de progresso |
+| `--divider` | `#EEF1F7` | 238, 241, 247 | separadores dos depoimentos e do FAQ |
+| `--divider-on-dark` | `rgba(255,255,255,.12)` | — | linha do footer |
+| `--placeholder` | `#9AA3B8` | 154, 163, 184 | placeholders dos inputs |
+
+Semântica:
+
+- **Primária:** lima `#BFE24A` (ação). **Secundária / marca:** navy `#10194D`.
+- **Contraste:** navy sobre lima ≈ 9,5:1 (ótimo). Cinza `#5C6680` sobre branco ≈ 6:1. Texto lima sobre
+  navy ≈ 9:1. Texto `#C4CADF` sobre navy ≈ 10:1.
+
+### 2.2 Gradientes [E]
+
+| Onde | Definição proposta |
+|------|--------------------|
+| CTAs lima ("SOLICITAR ORÇAMENTO", "ENVIAR NO WHATSAPP", "CHAMAR NO WHATSAPP") | `linear-gradient(90deg, #D7EE7E 0%, #B6DB38 100%)` — mais claro à esquerda **[C]** |
+| Overlay dos cards do carrossel de serviços | `linear-gradient(180deg, rgba(16,25,77,0) 30%, rgba(16,25,77,.85) 100%)` |
+| Overlay das fotos da galeria (legenda) | `linear-gradient(180deg, rgba(16,25,77,0) 55%, rgba(16,25,77,.75) 100%)` |
+| Foto do hero (fusão com o fundo navy) | máscara/gradiente `linear-gradient(90deg, #10194D 0%, rgba(16,25,77,0) 35%)` sobre a foto, mais um escurecimento geral ≈20 % |
+| Foto do card de contato | tint azul `rgba(16,25,77,.45)` uniforme, mais leve que o do hero |
+
+### 2.3 Sombras, bordas e raios [E]
+
+| Elemento | Valor proposto |
+|----------|----------------|
+| Navbar flutuante | `box-shadow: 0 8px 24px rgba(16,25,77,.12)` |
+| Cards claros (Soluções card 1, Por que, FAQ, Ainda com dúvidas) | `0 12px 32px rgba(16,25,77,.08)` |
+| Card de contato (grande) | `0 24px 60px rgba(16,25,77,.10)` |
+| Chip de logo entre fotos (seção 4) | `0 10px 24px rgba(16,25,77,.25)` |
+| Botão flutuante do WhatsApp | `0 10px 24px rgba(16,25,77,.25)` |
+| CTA lima | glow sutil `0 0 0 2px rgba(255,255,255,.18)` mais `0 10px 24px rgba(191,226,74,.25)` **[E]** |
+| Inputs | `border: 1px solid #D9DEE8` |
+
+Escala de raios observada:
+
+| Token | px | Onde |
+|-------|----|------|
+| `--r-sm` | 10 | caixas de ícone pequenas (36 px), setas do carrossel, badges 01/02/03, ícones sociais |
+| `--r-md` | 12 | caixas de ícone 48 px, botões da navbar e CTAs, inputs (10–12) |
+| `--r-lg` | 16 | cards, fotos da timeline, galeria, acordeão, navbar (16–18) |
+| `--r-xl` | 28 | foto grande da área de atendimento, card de contato |
+| `--r-section` | 32–40 | cantos do bloco navy (seção 5), do hero e do footer |
+| `--r-full` | 999 | pílulas, chips, toggles do FAQ, avatares, selo circular |
+
+### 2.4 Opacidades e profundidade [E]
+
+- Profundidade é feita por **sombra suave + contraste de fundo** (branco sobre `--bg-soft`, lima sobre navy),
+  nunca por bordas escuras.
+- Caixa de ícone sempre em cor sólida (lima ou navy), sem transparência.
+- Sobre navy, a pílula usa fundo ≈`rgba(255,255,255,.06)` com borda `rgba(255,255,255,.10)` **[E]**.
+- Overlays de foto são sempre navy translúcido, nunca preto.
+
+---
+
+## 3. Tipografia
+
+### 3.1 Família [E]
+
+Uma única família sans-serif geométrica, larga, de traço uniforme, com:
+
+- `a` de dois andares, `g` de um andar, `e` com barra horizontal, `t` com pé curvo;
+- bojos levemente "quadrados" (ver `o`, `p`, `d` nos títulos e os números 01/02/03), um leve ar técnico/industrial;
+- caixa alta larga nos eyebrows, com bom suporte a tracking.
+
+Candidatas, em ordem de semelhança visual:
+
+1. **Exo 2** (Google Fonts) — o ar técnico e os bojos arredondado-quadrados batem bem; usar pesos 400/500/600.
+2. **Lexend** — largura e geometria muito próximas, porém mais "amigável" e menos técnica.
+3. **Saira** / **Titillium Web** — alternativas industriais; Titillium é mais estreita.
+4. **Sora** — fallback geométrico se as acima não servirem.
+
+Não há evidência suficiente para afirmar a fonte original. O logotipo ("PANTANAL" em itálico pesado e
+"GERADORES" espaçado) é um asset de marca, não uma fonte do sistema; precisa de SVG.
+
+Fallback proposto: `font-family: "Exo 2", "Lexend", "Segoe UI", system-ui, sans-serif;`
+
+### 3.2 Escala tipográfica desktop (≈1440 px) [E]
+
+| Papel | Exemplo | Tamanho | Peso | Line-height | Tracking | Caixa | Cor |
+|-------|---------|---------|------|-------------|----------|-------|-----|
+| Barra superior | "Atendimento 24 horas…" | 12–13 px | 500 | 1 | 0 | normal | navy sobre lima |
+| Link da navbar | "Início", "Serviços" | 17–18 px | 500 | 1 | 0 | normal | navy |
+| Telefone navbar | "(65) 99647-9191" | 17–18 px | 500 | 1 | 0 | normal | navy |
+| Eyebrow (sem pílula) | "MANUTENÇÃO DE GRUPOS GERADORES EM MATO GROSSO" | 12–13 px | 500 | 1.2 | 0.18–0.22 em | caixa alta | `--text-muted` / branco 80 % no hero |
+| Pílula | "NOSSA ABORDAGEM TÉCNICA" | 12 px | 500 | 1 | 0.2 em | caixa alta | `--lime-text` sobre `--lime-100` |
+| H1 (hero) | "Seu gerador pronto / quando a energia cair." | 56–60 px | 500 | 1.05 | -0.01 em | sentence case | branco; 2ª linha lima |
+| H2 seção | "Gerador que falha / na hora H custa caro." | 48 px | 500 | 1.0–1.05 | -0.01 em | sentence case | navy ou branco |
+| H2 do card de contato | "Seu próximo passo, com / orientação." | 40–42 px | 500 | 1.05 | -0.01 em | sentence case | navy |
+| Subtítulo do hero | "Manutenção preventiva, corretiva…" | 20 px | 400 | 1.45 | 0 | — | `--text-on-dark` |
+| Lead de seção | parágrafo ao lado/abaixo do H2 | 17 px | 400 | 1.5 | 0 | — | `--text-body` |
+| Subtítulo centrado | "Há 6 anos cuidando…" | 17–18 px | 400 | 1.5 | 0 | — | `--text-on-dark-muted` / `--text-body` |
+| H3 card de Soluções | "Manutenção preventiva" | 24–26 px | 600 | 1.2 | 0 | — | navy / navy / branco |
+| H3 card Por que | "Diagnóstico antes da troca" | 22 px | 600 | 1.2 | 0 | — | navy |
+| H3 passo da timeline | "Entendemos a ocorrência" | 28 px | 600 | 1.2 | 0 | — | navy |
+| H3 card de serviço | "Manutenção preventiva" (sobre foto) | 28 px | 600 | 1.2 | 0 | — | branco |
+| H3 "Ainda com dúvidas?" | — | 22 px | 600 | 1.2 | 0 | — | navy |
+| H3 feature (seção 4) | "Diagnóstico orientado" | 19–20 px | 600 | 1.2 | 0 | — | navy |
+| Pergunta do FAQ | "Vocês atendem fora de Cuiabá?" | 19 px | 500 | 1.3 | 0 | — | navy |
+| Corpo de card | 16 px | 400 | 1.5 | 0 | — | `--text-body` (navy 80 % no card lima; `--text-on-dark-muted` no card navy) |
+| Resposta do FAQ | 15–16 px | 400 | 1.75 | 0 | — | `--text-body` |
+| Citação de depoimento | 16 px | 400 | 1.5 | 0 | — | `--text-quote` |
+| Nome do depoente | 16 px | 600 | 1.2 | 0 | — | navy |
+| Cargo do depoente | 13–14 px | 400 | 1.3 | 0 | — | `--text-body` |
+| Label de serviço no card (carrossel) | "MANUTENÇÃO · 01" | 12 px | 500 | 1 | 0.15 em | caixa alta | lima |
+| Legenda de foto da galeria | "Sala técnica com grupos geradores" | 14 px | 400 | 1.2 | 0 | — | branco |
+| Link com seta | "Planejar manutenção →" | 15 px | 500 | 1 | 0 | — | navy / branco |
+| Texto do CTA | "SOLICITAR ORÇAMENTO" | 15 px | 500 | 1 | 0.04 em | caixa alta | navy |
+| Chip de cidade | "Cuiabá" | 15 px | 500 | 1 | 0 | — | navy; branco no chip "e todo o estado" |
+| Label de formulário | "Qual o seu nome?" | 16 px | 500 | 1 | 0 | — | navy |
+| Placeholder | "Seu nome" | 16 px | 400 | 1 | 0 | — | `--placeholder` |
+| Texto auxiliar do form | "Ao clicar, você vai direto…" | 13 px | 400 | 1.4 | 0 | — | `--text-muted` |
+| Número do badge 01/02/03 | — | 20 px | 600 | 1 | 0 | — | navy sobre lima |
+| Heading do footer | "Explore" | 20 px | 500 | 1 | 0 | — | branco |
+| Link do footer | "Nossos serviços" | 16 px | 400 | 1 | 0 | — | `--text-on-dark-muted` |
+| Texto do selo circular | "PANTANAL GERADORES -" | 11 px | 500 | 1 | 0.2 em | caixa alta | branco |
+| Copyright | — | 14 px | 400 | 1 | 0 | — | `--eyebrow-on-dark` |
+
+### 3.3 Comparação desktop × mobile
+
+| Papel | Desktop (observado/estimado) | Mobile (proposta, **[I]**) |
+|-------|------------------------------|-----------------------------|
+| H1 | 56–60 px | 36–40 px, `clamp(2.25rem, 9vw, 3.75rem)` |
+| H2 | 48 px | 30–32 px, `clamp(1.875rem, 7vw, 3rem)` |
+| H2 contato | 40–42 px | 28 px |
+| H3 cards | 22–28 px | 20–22 px |
+| Lead/subtítulo | 17–20 px | 16–17 px |
+| Corpo | 16 px | 15–16 px |
+| Eyebrow/pílula | 12–13 px | 11–12 px |
+| CTA | 15 px | 14–15 px |
+
+### 3.4 Quebras de linha observadas [C]
+
+Quebras que parecem intencionais (a largura disponível permitiria continuar na mesma linha), portanto
+provavelmente forçadas com `br` ou `max-width` curto:
+
+- H1: "Seu gerador pronto" / "quando a energia cair."
+- Soluções: "Gerador que falha" / "na hora H custa caro."
+- Abordagem: "Método claro." / "Precisão em cada" / "intervenção."
+- Por que: "Diagnóstico preciso." / "Equipe que resolve."
+- Serviços: "Cuidado completo" / "para sua energia."
+- Como funciona: "Da avaliação à entrega. Seu" / "sistema preparado." (quebra natural por `max-width` ≈620 px)
+- Projetos: "Cada projeto revela o" / "nosso cuidado."
+- Área: "Cobertura em todo o" / "Mato Grosso."
+- Depoimentos: "Boas experiências." / "De pessoa para pessoa."
+- Contato: "Seu próximo passo, com" / "orientação." (quebra natural)
+- FAQ: "O que você" / "precisa saber."
+
+---
+
+## 4. Estrutura e layout
+
+### 4.1 Container e espaçamento [E]
+
+```css
+:root {
+  --container: 1140px;      /* caixa */
+  --gutter: 16px;           /* padding lateral => conteúdo ≈1108px */
+  --section-y: 80px;        /* padding vertical padrão das seções */
+  --gap-card: 16px;         /* grid de cards 3 e 4 colunas */
+  --gap-col: 112px;         /* distância entre coluna de mídia e coluna de texto */
+}
+.container { max-width: var(--container); margin: 0 auto; padding: 0 var(--gutter); }
+```
+
+Medições que sustentam esses valores:
+
+| Medida | Imagem (px) | CSS (px) |
+|--------|-------------|----------|
+| Conteúdo (x 228 → 1770) | 1542 | ≈1108 |
+| Caixa da navbar (x 207 → 1792) | 1585 | ≈1140 |
+| Card de Soluções | 500 | ≈360 |
+| Gap entre cards de 3 colunas | 22 | ≈16 |
+| Card de "Por que" | 369 | ≈266 |
+| Gap entre cards de 4 colunas | 23 | ≈16 |
+| Coluna de texto (seções 4 e 9) | 628 | ≈452 |
+| Gap mídia → texto (seção 4) | 157 | ≈112 |
+| Gap mídia → texto (seção 9) | 217 | ≈156 |
+| Coluna direita de parágrafo (Soluções, Projetos) | 548 | ≈395 |
+| Coluna esquerda do FAQ | 500 | ≈360 |
+| Coluna direita do FAQ | 886 | ≈638 |
+
+Grids prováveis por seção:
+
+| Seção | Grid proposto |
+|-------|---------------|
+| Hero | `grid-template-columns: 1.1fr 1fr`; a foto é `position:absolute; right:0; top:0; bottom:0; width:55%` |
+| Cabeçalho "título + parágrafo à direita" | `grid-template-columns: 1fr 395px; align-items: start; gap: 64px` |
+| Soluções | `repeat(3, 1fr)`, gap 16 |
+| Abordagem | `grid-template-columns: 544px 1fr; gap: 112px; align-items: center` |
+| Por que | `repeat(4, 1fr)`, gap 16 |
+| Serviços | flex track, `overflow: visible`, card ativo 540 px, demais 360 px, gap 18 |
+| Como funciona | `grid-template-columns: 1fr 240px 1fr; row-gap: 16px; align-items: center` (coluna central = linha + badge) |
+| Projetos | masonry 3 colunas: `grid-template-columns: repeat(3, 1fr); grid-auto-rows: 16px` com `grid-row: span N`, ou 3 flex columns |
+| Área | `grid-template-columns: 1fr 452px; gap: 156px; align-items: center` |
+| Depoimentos | 2 linhas de flex track, card 356 px, gap 20/23 |
+| Contato | card `grid-template-columns: 49% 51%` |
+| FAQ | `grid-template-columns: 360px 1fr; gap: 112px; align-items: start` |
+| Footer | `grid-template-columns: 1.4fr 1fr 1fr 1.1fr; gap: 48px` |
+
+### 4.2 Responsividade (proposta, **[I]**)
+
+Nenhum comportamento mobile foi observado. Breakpoints propostos para reproduzir o desktop e degradar com coerência:
+
+```css
+/* ≥1280: layout das capturas */
+@media (max-width: 1279px) {
+  :root { --gap-col: 64px; }
+  /* H2 48→42px; hero foto width 50% */
+}
+@media (max-width: 1023px) {
+  /* navbar: links + telefone escondidos atrás de um menu; fica logo + botão Contato + hambúrguer */
+  /* Soluções: 3 → 2 colunas (o 3º card ocupa 2 colunas ou fica sozinho) */
+  /* Por que: 4 → 2 colunas */
+  /* Abordagem, Área, FAQ, Contato: 2 colunas → 1 coluna (mídia acima do texto) */
+  /* Cabeçalho "título + parágrafo à direita" vira pilha */
+  /* Footer: 4 → 2 colunas */
+}
+@media (max-width: 767px) {
+  :root { --gutter: 20px; --section-y: 56px; }
+  /* Hero: pilha; foto como fundo com overlay mais forte; selo circular reduzido (120px) ou oculto */
+  /* Soluções e Por que: 1 coluna */
+  /* Timeline: linha vertical à esquerda (x = 22px), badge sobre a linha, foto acima do texto em cada passo */
+  /* Galeria: 2 colunas, depois 1 em ≤480 */
+  /* Carrosséis (serviços, depoimentos): scroll horizontal nativo com scroll-snap, 1 card ≈85vw */
+  /* Formulário: inputs em 1 coluna */
+  /* Chips: mantêm wrap */
+  /* Footer: 1 coluna; contato com ícones mantém layout em linha */
+}
+@media (max-width: 479px) {
+  /* H1 36px, H2 30px; CTAs em largura total; navbar com altura 64px */
+}
+```
+
+Transformações esperadas (todas **[I]**, propostas): linha → coluna em todas as seções de 2 colunas;
+ordem mídia-antes-do-texto preservada mesmo nos passos 02 da timeline (onde no desktop a foto está à direita);
+grids de cards viram listas; carrosséis viram scroll horizontal; ondas SVG mantêm `preserveAspectRatio="none"`
+com altura fixa menor (≈32 px).
+
+---
+
+## 5. Documentação de componentes
+
+### 5.0 Barra superior [C]
+
+- Full-bleed, fundo `--lime`, texto navy 12–13 px centrado: "Atendimento 24 horas, em todo o Mato Grosso."
+- Altura ≈28–32 px **[E]**.
+
+### 5.1 Navbar (flutuante) [C]
+
+| Propriedade | Valor |
+|-------------|-------|
+| Caixa | 1140 × 78 px, branco, raio 16–18, sombra `0 8px 24px rgba(16,25,77,.12)` |
+| Posição | ≈8 px abaixo da barra lima, sobre o fundo navy do hero (flutua). Sticky é **[I]** |
+| Padding interno | 16 px laterais (conteúdo em 1108 px) |
+| Logo | wordmark "PG PANTANAL GERADORES" ≈210 × 32 px, PG em lima, PANTANAL navy, GERADORES lima espaçado |
+| Links | "Início", "Serviços ⌄" (chevron 14 px indica submenu, conteúdo **[I]**), "Projetos", "Atendimento"; 17–18 px, peso 500, navy, gap ≈20 px (ou `padding: 0 10px`) |
+| Telefone | ícone de telefone 18 px (outline) + "(65) 99647-9191", 17–18 px, gap 8 px; ≈18 px à direita dos links |
+| Botão "Contato" | 120 × 44 px, fundo `--lime` sólido (sem gradiente), raio 12, texto 17 px peso 500 navy, ícone WhatsApp 20 px à direita, gap 10; ≈17 px à direita do telefone |
+| Layout | `display:flex; align-items:center; justify-content:space-between` com logo à esquerda e um grupo `[links][telefone][botão]` à direita |
+
+Mobile: **[I]**. Proposta: 64 px de altura, logo + botão + hambúrguer.
+
+### 5.2 Hero [C]/[E]
+
+| Propriedade | Valor |
+|-------------|-------|
+| Altura | preenche o viewport abaixo da barra lima: ≈ `calc(100vh - 32px)`, mínimo ≈660 px **[E]** |
+| Fundo | `--navy`; foto do técnico (capacete branco, óculos, uniforme navy com faixas refletivas, braços cruzados) com sala de geradores ao fundo; sangra até a borda direita do viewport, começa em ≈x 45 % e funde com o navy à esquerda por gradiente |
+| Borda inferior | cantos inferiores arredondados ≈40 px (a seção seguinte, branca, "entra" por baixo); no centro uma aba semicircular branca ≈96 × 30 px contendo um chevron para baixo navy 20 px **[C]** |
+| Coluna de texto | começa na borda do container; largura máx ≈560 px |
+
+Pilha de texto (de cima para baixo, com espaçamentos estimados):
+
+1. Eyebrow "MANUTENÇÃO DE GRUPOS GERADORES EM MATO GROSSO" — 12–13 px, tracking 0.2 em, branco 80 %; começa ≈80 px abaixo da navbar.
+2. H1 (margem-top 24): "Seu gerador pronto" branco / "quando a energia cair." lima. 56–60 px, line-height 1.05.
+3. Subtítulo (margem-top 24): 20 px, `--text-on-dark`, max-width ≈490 px, 2 linhas.
+4. Linha de urgência (margem-top 24): "Gerador parado agora? Atendimento 24 horas — é só chamar aqui embaixo." 16 px, branco 75 %.
+5. CTA (margem-top 20): "SOLICITAR ORÇAMENTO" (ver 5.6), 240 × 52 px.
+6. Prova social (margem-top 40): 3 avatares circulares 32 px (fotos de salas de geradores), sobrepostos −8 px, borda 2 px navy; ao lado, "6 anos em todo o Mato Grosso" lima 15 px peso 600 e, abaixo, "indústrias, hospitais, condomínios e fazendas" 14 px branco 75 %.
+
+Selo circular (canto inferior direito do hero) **[C]**:
+
+- Anel de texto rotativo "PANTANAL GERADORES - PANTANAL GERADORES -" branco 11 px tracking 0.2 em, diâmetro ≈210 px.
+- Disco interno navy ≈155 px com o monograma "PG" lima ≈80 px de largura.
+- Há um filete fino separando anel e disco.
+- Posição: ≈15 px da borda direita do container, ≈120 px acima da base do hero.
+- Rotação/animação: **[I]**.
+
+### 5.3 Soluções (3 cards) [C]
+
+Cabeçalho:
+
+- Eyebrow "SOLUÇÕES PARA GRUPOS GERADORES" (cinza, sem pílula), padding-top ≈80 px.
+- H2 "Gerador que falha / na hora H custa caro." 48 px navy, margem-top 28.
+- Parágrafo na coluna direita (395 px, alinhado ao topo do H2): "Parado por meses, ele pode não partir quando a energia cai. A Pantanal acompanha, corrige e instala grupos geradores em indústrias, comércios, condomínios, hospitais e fazendas." 17 px.
+
+Cards (margem-top ≈32 px; 360 × 256 px; gap 16; raio 16; padding 28–32):
+
+| Card | Fundo | Caixa de ícone | Ícone | Título | Corpo | Link |
+|------|-------|----------------|-------|--------|-------|------|
+| 1 Manutenção preventiva | `--surface-tint` + sombra suave | lima 48 px raio 12 | maleta/caixa, navy, outline | navy | `--text-body` | "Planejar manutenção →" navy |
+| 2 Diagnóstico e manutenção corretiva | `--lime` | navy 48 px | pulso/atividade, lima | navy | navy 80 % | "Solicitar diagnóstico →" navy |
+| 3 Instalação e sistemas de comando | `--navy` | lima 48 px | controlador/painel, navy | branco | `--text-on-dark-muted` | "Conversar sobre instalação →" branco |
+
+- Título 24–26 px peso 600, ≈28 px abaixo da caixa de ícone; corpo 16 px, margem-top 12.
+- Os links ficam na mesma linha de base nos três cards apesar de corpos de tamanhos diferentes:
+  `display:flex; flex-direction:column` com o link em `margin-top:auto` **[C]**.
+- Seta do link: 16 px, gap 8.
+
+### 5.4 Nossa abordagem técnica [C]
+
+- Coluna esquerda (544 px): duas fotos empilhadas (gerador com tubulações pretas; grupo gerador carenado cinza em sala),
+  cada uma 544 × 242 px, raio 16, gap 12, `object-fit: cover`.
+- Sobre a emenda das fotos, centralizado: chip navy 247 × 58 px, raio 12, com o logotipo (PG lima, PANTANAL branco,
+  GERADORES lima), sombra forte. Implementar como `position:absolute; left:50%; top:50%; transform:translate(-50%,-50%)`.
+- Coluna direita (452 px), alinhada ao centro vertical das fotos:
+  1. Pílula "NOSSA ABORDAGEM TÉCNICA" (ver 5.11).
+  2. H2 (margem-top 32): "Método claro. / Precisão em cada / intervenção."
+  3. Parágrafo (margem-top 32): "Há 6 anos a Pantanal Geradores e Serviços trabalha com o mesmo princípio: entender o equipamento antes de definir a intervenção — com método, cuidado e transparência." 17 px.
+  4. Lista de 3 features (margem-top 32, gap 20): caixa lima 36 px raio 10 com ícone navy outline 20 px; ao lado, título 19–20 px peso 600 e descrição 15–16 px.
+     - "Diagnóstico orientado" — "Entendemos a origem da falha antes de propor a solução." (ícone lupa)
+     - "Intervenção precisa" — "Cuidado com o equipamento em cada etapa." (ícone alvo/mira)
+     - "Entrega conferida" — "Testes e ajustes antes de liberar o sistema." (ícone prancheta com check)
+
+### 5.5 Por que a Pantanal (bloco navy) [C]
+
+- Bloco navy com cantos superiores arredondados ≈40 px; no topo, ao centro, aba semicircular branca com chevron
+  para baixo (mesmo componente do fim do hero, agora "mordendo" o topo do bloco navy).
+- Padding-top ≈80 px; conteúdo centrado.
+- Pílula "POR QUE A PANTANAL" na variante escura (texto lima suave, fundo navy claro translúcido).
+- H2 branco centrado (margem-top 32): "Diagnóstico preciso. / Equipe que resolve."
+- Subtítulo (margem-top 28), 17–18 px, `--text-on-dark-muted`, centrado:
+  "Há 6 anos cuidando de grupos geradores em todo o Mato Grosso, com o mesmo cuidado do primeiro atendimento."
+- 4 cards (margem-top 32; 266 × 198 px; gap 16; branco; raio 16; padding 28):
+  - Acento: traço lima ≈48 × 4 px encostado na borda superior do card, alinhado ao padding esquerdo **[C]**.
+  - Caixa de ícone lima 48 px raio 12, ícone navy outline.
+  - Título 22 px peso 600 (margem-top 22), corpo 16 px (margem-top 12).
+
+| Card | Ícone | Título | Corpo |
+|------|-------|--------|-------|
+| 1 | lupa com + | Diagnóstico antes da troca | Localizamos a causa da falha antes de trocar qualquer peça. Você paga pelo que resolve. |
+| 2 | sol/asterisco | Atendimento 24 horas | Ocorrência não escolhe horário. Paradas urgentes são atendidas a qualquer hora, direto pelo WhatsApp. |
+| 3 | pin de mapa | Todo o Mato Grosso | Deslocamento até a sua operação, da capital ao interior, com a mesma equipe técnica. |
+| 4 | medidor/gauge | Sistema completo | Não só o motor: QTA, comandos e controladores, com retrofit quando é o caso. |
+
+- CTA "SOLICITAR ORÇAMENTO" centrado (margem-top 36), 240 × 52.
+- Borda inferior: onda assimétrica. O fundo claro da seção seguinte começa ≈40 px abaixo do CTA no lado esquerdo e
+  ≈36 px mais baixo no lado direito, com uma curva suave em S na região central **[C]**.
+
+```html
+<!-- divisor: navy em cima, claro embaixo; viewBox arbitrário, esticar com preserveAspectRatio="none" -->
+<svg viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M0,0 H1440 V60 H900 C700,60 600,0 0,0 Z" fill="#10194D"/>
+</svg>
+```
+
+### 5.6 Botões
+
+**CTA primário (gradiente)** — "SOLICITAR ORÇAMENTO", "ENVIAR NO WHATSAPP", "CHAMAR NO WHATSAPP" **[C]**
+
+| Propriedade | Valor |
+|-------------|-------|
+| Tamanho | 240 × 52 px (inline) ou largura total (formulário, 52 px) |
+| Fundo | `linear-gradient(90deg, #D7EE7E, #B6DB38)` |
+| Borda/glow | filete 2 px lima-claro translúcido e sombra suave esverdeada **[E]** |
+| Raio | 12 px |
+| Padding | 0 24 px à esquerda; ícone encostado à direita com inset 4 px |
+| Texto | 15 px, peso 500, caixa alta, tracking 0.04 em, navy, alinhado à esquerda |
+| Ícone | caixa navy 44 × 44 px raio 10 com ícone WhatsApp branco 22 px, à direita |
+| Layout | `display:inline-flex; align-items:center; justify-content:space-between; gap:16px` |
+
+**Botão da navbar** — "Contato" **[C]**: 120 × 44, lima sólido, raio 12, texto 17 px peso 500 navy, ícone WhatsApp navy 20 px à direita.
+
+**Link com seta** — "Planejar manutenção →", "Saiba mais →" **[C]**: 15 px peso 500, seta 16 px, gap 8, sem fundo.
+
+**Setas do carrossel** **[C]**: 40 × 40, lima, raio 10, ícone seta navy 18 px, gap 12, par alinhado à direita.
+
+**Toggle do FAQ** **[C]**: círculo 32 px; aberto = lima com "−" navy; fechado = `--chip` com "+" navy.
+
+**Botão flutuante WhatsApp** **[C]/[I]**: círculo 50 px lima, ícone branco 24 px, sombra; a ≈24 px da borda direita.
+Só aparece em uma captura, a ≈240 px do topo do viewport; `position:fixed` e a coordenada vertical são hipóteses.
+
+**Chips de cidade** **[C]**: altura 32, padding 6 18, raio 999, `--chip`, texto 15 px peso 500 navy; variante ativa
+"e todo o estado" em navy com texto branco.
+
+**Ícones sociais do footer** **[C]**: 38 × 38, lima, raio 10, ícone navy 20 px, gap 8 (WhatsApp, Instagram, Facebook).
+
+Estados hover/focus/active: **[I]** para todos.
+
+### 5.7 Nossos serviços (carrossel) [C]
+
+- Fundo `--bg-soft`. Cabeçalho: pílula "NOSSOS SERVIÇOS"; H2 "Cuidado completo / para sua energia."; parágrafo 17 px,
+  max-width ≈555 px: "Encontre a solução certa para cada necessidade — da instalação ao diagnóstico, da manutenção aos comandos."
+- Setas prev/next à direita, na altura vertical do parágrafo.
+- Trilha (margem-top ≈40): cards 432 px de altura, raio 16, gap 18, com `overflow: visible` em relação ao container:
+  um card parcial aparece cortado à esquerda do viewport e o último é cortado à direita.
+- Card ativo (primeiro visível) **540 px** de largura; demais **360 px** **[C]** (carrossel com card expandido).
+- Conteúdo ancorado no canto inferior esquerdo (padding 28), sobre overlay navy em gradiente:
+  - label "MANUTENÇÃO · 01" lima 12 px tracking 0.15 em;
+  - título 28 px branco peso 600 (margem-top 14);
+  - só no card ativo: corpo 16 px `--text-on-dark` (margem-top 14) e link "Saiba mais →" branco (margem-top 20).
+- Barra de progresso (margem-top 36): 208 × 3 px, trilho `--border`, preenchimento lima ≈10 %, centrada.
+
+Slides observados:
+
+| Label | Título | Corpo (só no ativo) | Foto |
+|-------|--------|----------------------|------|
+| (cortado) | "…ladores" (provável "Comandos e controladores") **[E]** | — | régua de bornes de controlador |
+| MANUTENÇÃO · 01 | Manutenção preventiva | Inspeções e revisões periódicas para antecipar desgastes e reduzir paradas. Também com planos mensais. | porta aberta de gerador carenado |
+| MANUTENÇÃO · 02 | Manutenção corretiva | — | motor com chicote elétrico |
+| INSTALAÇÃO · 03 | Instalação de geradores | — | sala com gerador e duto |
+
+Quantidade total de slides, autoplay e comportamento das setas: **[I]**. O footer lista 6 serviços, o que sugere 6 slides **[E]**.
+
+### 5.8 Como funciona o atendimento (timeline) [C]
+
+- Fundo branco. Pílula "COMO FUNCIONA O ATENDIMENTO" centrada; H2 centrado "Da avaliação à entrega. Seu / sistema preparado."
+  (max-width ≈620 px); subtítulo 17 px centrado, max-width ≈720 px:
+  "Você conta o que aconteceu. A Pantanal avalia o equipamento, executa o reparo com segurança e testa tudo antes de liberar o sistema."
+- Timeline (margem-top ≈48): linha vertical lima 2 px no centro exato do container, do badge 01 ao badge 03.
+- Badges: 44 × 44 px, lima, raio 10, número "01/02/03" navy 20 px peso 600, centrados na linha e no centro vertical de cada passo.
+- Cada passo é uma linha do grid `1fr 240px 1fr` com `align-items:center`; o lado da foto alterna (01 esquerda, 02 direita, 03 esquerda).
+- Foto: 452 × 203 px, raio 16, `object-fit:cover`.
+- Bloco de texto: traço lima 22 × 3 px; título 28 px peso 600 (margem-top 20); corpo 17 px (margem-top 16), max-width ≈420 px.
+- Passos ficam quase encostados verticalmente (row-gap ≈16 px); o ziguezague cria o respiro.
+
+| Passo | Foto | Título | Corpo |
+|-------|------|--------|-------|
+| 01 (foto à esq.) | técnico de fone trabalhando no gerador, painel ao fundo | Entendemos a ocorrência | Você informa o modelo do equipamento e o que aconteceu. Avaliamos os sinais e o contexto para orientar o atendimento. |
+| 02 (foto à dir.) | grupo gerador Geraforte com painel | Executamos a solução | Identificamos a causa do problema e aplicamos o serviço necessário com método, segurança e precisão técnica. |
+| 03 (foto à esq.) | mão limpando tubulação vermelha em gerador azul | Validamos antes de liberar | Testamos o sistema, verificamos o desempenho do equipamento e orientamos os próximos cuidados antes da liberação. |
+
+### 5.9 Instalações e trabalhos realizados (galeria) [C]
+
+- Bloco navy cujas bordas superior e inferior são ondas que **sobem para a direita** (≈36 px de amplitude no topo,
+  ≈58 px na base). Usar dois SVGs `preserveAspectRatio="none"`.
+- Padding-top ≈80. Cabeçalho no padrão "título + parágrafo à direita": eyebrow "INSTALAÇÕES E TRABALHOS REALIZADOS"
+  (`--eyebrow-on-dark`), H2 branco "Cada projeto revela o / nosso cuidado.", parágrafo `--text-on-dark-muted` 17 px:
+  "Instalações, manutenções e diagnósticos feitos para preservar o desempenho e a continuidade de cada negócio. Veja alguns dos trabalhos realizados pela Pantanal."
+- Galeria (margem-top ≈40): 3 colunas de 360 px, gap 16, altura total ≈495 px. Alturas: alta 290 px, baixa 189 px.
+  Padrão por coluna: `alta/baixa`, `baixa/alta`, `alta/baixa`.
+- Cada foto: raio 16, `object-fit:cover`, overlay navy em gradiente na base e legenda branca 14 px com padding 16.
+
+| Coluna | Ordem | Legenda | Conteúdo |
+|--------|-------|---------|----------|
+| 1 | alta | Sala técnica com grupos geradores | gerador com cinta laranja e duto |
+| 1 | baixa | Grupo gerador carenado instalado | carenagem branca com painel |
+| 2 | baixa | Grupo gerador Geraforte · motor diesel | painel + motor |
+| 2 | alta | Motor Volvo de grupo gerador | motor verde |
+| 3 | alta | Painel de controle e comando | alternador preto e painel branco "Sudoeste Geradores" |
+| 3 | baixa | Carenado aberto para manutenção | carenagem "STEMAC" aberta |
+
+Padding-bottom ≈64 px antes da onda. Lightbox/clique: **[I]**.
+
+### 5.10 Área de atendimento [C]
+
+- Fundo branco; grid `1fr 452px`, gap ≈156 px, `align-items:center`.
+- Coluna esquerda: foto 432 × 493 px (gerador com tubulação, cinta laranja), raio 28, deslocada ≈70 px para a
+  direita da borda do container para dar lugar ao mapa.
+  - Mapa do estado de Mato Grosso em lima sólido ≈210 × 194 px, `position:absolute`, encostado na borda esquerda
+    do container e ≈32 px abaixo da base da foto (sobrepõe o canto inferior esquerdo da foto) **[C]**. Asset: SVG da silhueta de MT.
+  - Selo circular (mesmo do hero, versão ≈80 px) centrado sobre a borda direita da foto, ≈80 px abaixo do topo.
+- Coluna direita:
+  1. Eyebrow "ÁREA DE ATENDIMENTO" (cinza, sem pílula).
+  2. H2 (margem-top 28): "Cobertura em todo o / Mato Grosso."
+  3. Parágrafo (margem-top 32): "Atendemos indústrias, comércios, condomínios, hospitais e fazendas em todo o estado, com deslocamento até a sua operação. Informe a sua cidade e a equipe combina os detalhes do atendimento."
+  4. Chips (margem-top 36; `flex-wrap`, gap 12 × 10): Cuiabá, Várzea Grande, Rondonópolis, Tangará da Serra, Sorriso, Cáceres, Barra do Garças, **e todo o estado** (ativo, navy).
+  5. CTA "SOLICITAR ORÇAMENTO" (margem-top 32), 240 × 52.
+- Borda inferior da seção: curva convexa elíptica (branco "abaulado" sobre o fundo claro), ≈40 px de profundidade,
+  mais baixa no centro **[C]**. Proposta: `border-radius: 0 0 50% 50% / 0 0 40px 40px` no bloco branco.
+
+### 5.11 Pílulas e eyebrows [C]
+
+| Variante | Fundo | Texto | Altura | Padding | Onde |
+|----------|-------|-------|--------|---------|------|
+| Pílula clara | `--lime-100` | `--lime-text`, 12 px, caixa alta, tracking 0.2 em | 28 px | 6 16 | Abordagem, Serviços, Como funciona, Depoimentos, Contato, FAQ |
+| Pílula escura | `rgba(255,255,255,.06)` + borda `rgba(255,255,255,.10)` | lima suave `#C9DD7A` **[E]** | 28 px | 6 16 | Por que a Pantanal |
+| Eyebrow simples | — | `--text-muted` (ou `--eyebrow-on-dark` sobre navy; branco 80 % no hero) 12–13 px, tracking 0.2 em | — | — | Hero, Soluções, Projetos, Área |
+
+### 5.12 Depoimentos [C]
+
+- Fundo `--bg-soft`. No topo da seção, 5 estrelas lima 20 px (gap 6) centradas, ≈90 px acima da pílula.
+- Pílula "DEPOIMENTOS"; H2 centrado "Boas experiências. / De pessoa para pessoa."; subtítulo 17 px centrado:
+  "O cuidado com cada equipamento também aparece nas relações que construímos."
+- Duas linhas de cards (margem-top ≈40), em trilha horizontal que extrapola o container nos dois lados
+  (cards parciais visíveis nas bordas; a trilha começa ≈72 px à esquerda do container). Pelo menos 10 depoimentos **[E]**.
+- Card: 356 × 202 px, branco, raio 16, padding 20–24, sombra muito suave; gap 20 (coluna) / 23 (linha).
+  - 5 estrelas lima 14 px, gap 4.
+  - Citação 16 px `--text-quote`, entre aspas curvas, margem-top 14.
+  - Divisor 1 px `--divider`, margem 20 0.
+  - Autor: avatar 40 px circular com iniciais 14 px peso 600 (alterna lima/navy e navy/branco), nome 16 px peso 600 navy, cargo 13–14 px `--text-body`.
+
+Conteúdo legível (verificar antes de publicar; parecem depoimentos ilustrativos):
+
+| Iniciais | Nome | Cargo | Citação |
+|----------|------|-------|---------|
+| RA (lima) | Rodrigo Almeida | Gerente de manutenção · Indústria em Várzea Grande | "O gerador parava sem motivo aparente. Encontraram a falha no controlador e explicaram tudo antes de trocar qualquer peça." |
+| CN (navy) | Carla Nogueira | Coordenadora de infraestrutura · Hospital em Rondonópolis | "Precisávamos revisar o quadro de transferência com urgência. A equipe atendeu rápido e testou o sistema completo antes de liberar." |
+| JL (lima) | João Batista Lima | Produtor rural · Fazenda em Sorriso | "Mesmo longe da capital, vieram até a fazenda e resolveram a partida do gerador no mesmo dia. Atendimento sério e sem enrolação." |
+| MS (navy) | Mariana Souza | Síndica · Condomínio em Cuiabá | "Com o plano mensal, o gerador passou a ser testado com frequ[ência]… queda de energia, entrou sem […] problema." (cortado) |
+| PR (lima) | Paulo Henrique Rocha | Engenheiro eletricista · Indústria em Cuiabá | "Fizeram a instalação do grupo gerador e a integração com o nosso quadro elétrico. Organização e cuidado do início ao fim." |
+| LM (navy) | Luciana Martins | Gestora administrativa · Clínica em Cáceres | "A troca do controlador deixou o equipamento mais confiável e fácil de acompanhar. Recomendo o trabalho técnico da equipe." |
+| RM (lima) | Rafael Mendes | Gerente de operações · Centro logístico em Barra do Garças | "As revisões passaram a fazer parte da nossa rotina. A equipe explica o que encontra e orienta os cuidados com o equipamento de um jeito muito claro." |
+| FC (navy) | Fernanda Castro | Proprietária · Supermercado em […] | "O gerador falhou num doming[o]… Atenderam na hora e conseguir[am]… refrigeração do supermercado…" (cortado) |
+| (cortado) | — | "…Serra" (Tangará da Serra) | "…er a / …ndo." (cortado) |
+| (cortado) | — | "…omínio" | "…a última" (cortado) |
+
+Autoplay, arraste e botões: **[I]**.
+
+### 5.13 Contato (card com formulário) [C]
+
+- Sobre o mesmo fundo claro, ≈72 px abaixo dos depoimentos: card 1108 × 511 px, branco, raio 28, sombra grande, `overflow:hidden`.
+- Metade esquerda (≈49 %): foto (mão limpando gerador azul) `object-fit:cover`, tint azul-navy ≈45 %, logotipo
+  "PG PANTANAL GERADORES" centrado (≈216 px de largura; PG e GERADORES em lima, PANTANAL branco). Na borda direita
+  da foto, ao centro vertical, meia-lua branca ≈40 × 60 px com chevron ">" navy — provável controle de próxima foto **[I]**.
+- Metade direita: padding 48 (topo/esquerda) e 40 (direita), ≈48 na base.
+  1. Pílula "CONTATO".
+  2. H2 40–42 px (margem-top 24): "Seu próximo passo, com / orientação."
+  3. Parágrafo 17 px (margem-top 28): "Você não precisa saber qual é o defeito. Conte o que está acontecendo e informe a sua cidade — a equipe já abre o WhatsApp com tudo pronto."
+  4. Formulário (margem-top 28).
+
+**Inputs e formulário** **[C]**
+
+| Campo | Label | Placeholder | Tipo | Dimensão |
+|-------|-------|-------------|------|----------|
+| Nome | "Qual o seu nome?" | "Seu nome" | texto | 233 × 48, coluna 1 |
+| Cidade | "Qual a sua cidade?" | "Ex.: Cuiabá" | texto | 233 × 48, coluna 2 |
+| Serviço | "O que você precisa?" | "Selecione o serviço" | select (chevron à direita) | largura total × 48 |
+
+- Labels 16 px peso 500 navy, margem-bottom 8. Duas colunas com gap 14; linha seguinte com margem-top 20.
+- Inputs: branco, `border:1px solid #D9DEE8`, raio 10, padding 0 18, placeholder 16 px `--placeholder`.
+- Botão "ENVIAR NO WHATSAPP" (margem-top 20): CTA gradiente em largura total, 52 px, texto à esquerda, ícone à direita.
+- Texto auxiliar centrado 13 px (margem-top 14): "Ao clicar, você vai direto para o nosso WhatsApp, com a mensagem já preenchida."
+- Opções do select e validação: **[I]**. Mobile: **[I]**, proposta de 1 coluna.
+
+### 5.14 Perguntas frequentes [C]
+
+- Fundo `--bg-soft-2`, um tom mais azulado que o anterior, com borda superior em onda suave que sobe para a direita
+  (amplitude ≈40 px). Padding-top ≈80 px a partir da onda.
+- Grid `360px 1fr`, gap 112, `align-items:start`.
+- Coluna esquerda:
+  1. Pílula "PERGUNTAS FREQUENTES".
+  2. H2 (margem-top 32): "O que você / precisa saber."
+  3. Parágrafo 17 px (margem-top 28): "Algumas respostas para ajudar você a planejar o atendimento com mais tranquilidade."
+  4. Card "Ainda com dúvidas?" (margem-top 28): 360 × 215, branco, raio 16, padding 28, sombra suave; título 22 px peso 600;
+     texto 16 px: "Fale com nossa equipe pelo WhatsApp. Explique o que você precisa e nós orientamos o atendimento de forma rápida e direta.";
+     CTA "CHAMAR NO WHATSAPP" 242 × 48 (margem-top 20).
+- Coluna direita: card branco, raio 16, sem padding externo; 11 itens separados por 1 px `--divider`.
+  - Linha da pergunta: altura 77 px, padding 0 28, pergunta 19 px peso 500 navy à esquerda, toggle 32 px à direita.
+  - Item aberto: resposta 15–16 px, line-height 1.75, padding 0 28 28; toggle lima com "−".
+  - Primeiro item aberto na captura (estado inicial provável, mas **[I]**).
+
+| # | Pergunta | Resposta visível |
+|---|----------|------------------|
+| 1 | Vocês atendem fora de Cuiabá? | Sim. A Pantanal atende em todo o Mato Grosso. Informe sua cidade e a necessidade do equipamento para a equipe orientar o atendimento e combinar os detalhes do deslocamento. |
+| 2 | Meu gerador apresentou uma falha. Como pedir atendimento? | **[I]** |
+| 3 | É possível contratar manutenção periódica? | **[I]** |
+| 4 | O que preciso enviar para solicitar um orçamento? | **[I]** |
+| 5 | Vocês também trabalham com instalação e quadros de transferência? | **[I]** |
+| 6 | Como são definidos o valor e o prazo do serviço? | **[I]** |
+| 7 | Vocês atendem 24 horas? | **[I]** |
+| 8 | Atendem indústrias, condomínios e hospitais? | **[I]** |
+| 9 | Meu gerador ficou meses parado. Ainda vale fazer manutenção? | **[I]** |
+| 10 | Vocês fazem retrofit ou troca de controlador? | **[I]** |
+| 11 | Vocês realizam testes de funcionamento e de carga? | **[I]** |
+
+### 5.15 Footer [C]
+
+- Bloco navy full-bleed com cantos superiores arredondados ≈32 px; padding ≈72 px no topo e ≥72 px na base.
+- Grid `1.4fr 1fr 1fr 1.1fr`, gap 48.
+
+| Coluna | Conteúdo |
+|--------|----------|
+| 1 | Logotipo ≈225 × 32 (PG lima, PANTANAL branco, GERADORES lima); parágrafo 16 px `--text-on-dark-muted` (margem-top 32): "Pantanal Geradores e Serviços LTDA. Há 6 anos em manutenção, instalação e diagnóstico."; "Em todo o Mato Grosso." lima 14 px (margem-top 20); 3 ícones sociais (margem-top 28) |
+| 2 "Explore" | Início · Nossos serviços · Projetos realizados · Área de atendimento · Depoimentos · Dúvidas frequentes (links 16 px, passo vertical 38 px) |
+| 3 "Serviços" | Manutenção preventiva · Manutenção corretiva · Instalação de geradores · Diagnóstico de falhas · Transferência e comando · Assistência 24h |
+| 4 "Contato" | 4 itens com caixa lima 36 px raio 10 + ícone navy, label 16 px branco e valor 14 px `--text-on-dark-muted`, gap 14: WhatsApp (65) 99647-9191 · Telefone (65) 99647-9191 · E-mail pantanalgeradores@gmail.com · Atendimento "Todo o Mato Grosso · 24 horas" |
+
+- Headings das colunas 20 px peso 500 branco, margem-bottom 24.
+- Linha divisória 1 px `rgba(255,255,255,.12)` ≈52 px abaixo das colunas.
+- Linha final (margem-top 36): esquerda "© Pantanal Geradores. Todos os direitos reservados." 14 px; direita "Voltar ao início ↑" 14 px com ícone de seta 16 px.
+
+### 5.16 Imagens e elementos gráficos
+
+| Asset | Proporção / tamanho | Tratamento | Substituto se não houver original |
+|-------|---------------------|------------|-----------------------------------|
+| Foto do hero (técnico) | ≈800 × 700 px visíveis, retrato em pé | fundo fundido ao navy por gradiente à esquerda; escurecimento leve | foto de técnico com EPI em sala de máquinas, fundo escuro, PNG com fundo transparente facilita a fusão |
+| Avatares da prova social (3) | 32 px circulares | borda 2 px navy | miniaturas de equipamentos |
+| Fotos seção 4 (2) | 544 × 242, paisagem | raio 16, cover | geradores em sala técnica |
+| Fotos do carrossel (≥4) | 360–540 × 432, retrato | overlay navy gradiente | detalhes de motor, painel, carenagem |
+| Fotos da timeline (3) | 452 × 203, paisagem larga (≈2.2:1) | raio 16, cover | técnico em ação |
+| Galeria (6) | 360 × 290 e 360 × 189 | overlay na base + legenda | equipamentos instalados |
+| Foto da área (1) | 432 × 493, retrato | raio 28 | gerador com tubulação |
+| Foto do contato (1) | ≈546 × 511 | tint azul 45 % + logo centrado | mão/ferramenta em gerador |
+| Logotipo | SVG, versões claro (navy) e escuro (branco + lima) | — | wordmark em itálico pesado + "GERADORES" espaçado |
+| Monograma PG | SVG lima | usado no selo circular | — |
+| Silhueta de Mato Grosso | SVG lima ≈210 × 194 | posição absoluta | mapa do estado |
+| Ícones (outline, 20–24 px, traço ≈1.75) | — | navy sobre lima, lima sobre navy, branco em botões | conjunto estilo Lucide/Phantom: maleta, atividade, controlador, lupa, alvo, prancheta, sol, pin, gauge, telefone, WhatsApp, e-mail, seta, chevron, instagram, facebook |
+| Ondas/divisores | SVG `preserveAspectRatio="none"` | — | ver paths de exemplo em 5.5 |
+| Aba semicircular com chevron | ≈96 × 30 px | branca sobre navy | `border-radius: 0 0 48px 48px` ou `48px 48px 0 0` |
+
+---
+
+## 6. Estados e comportamentos não visíveis
+
+Capturas estáticas não permitem confirmar interação. Nenhum dos itens abaixo deve ser implementado como "fiel ao original";
+são apenas pontos a decidir:
+
+- **Não há evidência** de animações de entrada, parallax, rotação do selo circular, autoplay dos carrosséis ou efeito de scroll.
+- **Hover/focus/active** de links, botões, cards, chips e toggles: indeterminados. Sugestão neutra (opcional): escurecer o gradiente
+  do CTA em 6 % e elevar sombra; sublinhar links do footer.
+- **Navbar sticky**: indeterminado (é flutuante no topo, mas não se sabe se acompanha o scroll).
+- **Submenu "Serviços"**: o chevron indica um dropdown; conteúdo e estilo indeterminados (provável lista dos 6 serviços do footer).
+- **Carrossel de serviços**: lógica de expansão do card ativo, loop, teclado: indeterminados. O progresso ≈10 % sugere ≈6–10 slides.
+- **Depoimentos**: duas trilhas; direção, autoplay e arraste: indeterminados.
+- **Foto do card de contato**: a meia-lua com chevron sugere troca de imagem; indeterminado.
+- **FAQ**: acordeão com um item aberto na captura; se permite múltiplos abertos: indeterminado.
+- **Formulário**: envio monta mensagem para o WhatsApp (texto auxiliar afirma isso), mas validação, máscara e opções do select: indeterminados.
+- **Botão flutuante WhatsApp**: posição fixa e aparição após scroll: hipóteses.
+- **"Voltar ao início"**: smooth scroll: indeterminado.
+- **Menu mobile**: não observado.
+
+---
+
+## 7. Tokens prontos para implementação
+
+```css
+:root {
+  /* cor */
+  --navy: #10194D;
+  --navy-700: #1C2659;
+  --lime: #BFE24A;
+  --lime-300: #D7EE7E;
+  --lime-600: #B6DB38;
+  --lime-100: #E9F3D2;
+  --lime-text: #6F7F4E;
+  --bg: #FFFFFF;
+  --bg-soft: #F2F5FA;
+  --bg-soft-2: #E9EEF7;
+  --surface: #FFFFFF;
+  --surface-tint: #F7F9FC;
+  --chip: #EDF0F6;
+  --text: #10194D;
+  --text-body: #5C6680;
+  --text-muted: #7B8497;
+  --text-quote: #3B4560;
+  --text-on-dark: #D5DAEA;
+  --text-on-dark-muted: #C4CADF;
+  --eyebrow-on-dark: #AEB5D3;
+  --border: #D9DEE8;
+  --divider: #EEF1F7;
+  --placeholder: #9AA3B8;
+
+  /* gradiente */
+  --grad-cta: linear-gradient(90deg, var(--lime-300), var(--lime-600));
+  --grad-photo: linear-gradient(180deg, rgba(16,25,77,0) 30%, rgba(16,25,77,.85) 100%);
+
+  /* raio */
+  --r-sm: 10px; --r-md: 12px; --r-lg: 16px; --r-xl: 28px; --r-section: 36px; --r-full: 999px;
+
+  /* sombra */
+  --sh-nav: 0 8px 24px rgba(16,25,77,.12);
+  --sh-card: 0 12px 32px rgba(16,25,77,.08);
+  --sh-panel: 0 24px 60px rgba(16,25,77,.10);
+  --sh-cta: 0 0 0 2px rgba(255,255,255,.18), 0 10px 24px rgba(191,226,74,.25);
+
+  /* tipografia */
+  --font: "Exo 2", "Lexend", "Segoe UI", system-ui, sans-serif;
+  --fs-h1: clamp(2.25rem, 4.2vw, 3.75rem);
+  --fs-h2: clamp(1.875rem, 3.4vw, 3rem);
+  --fs-h2-sm: clamp(1.75rem, 3vw, 2.625rem);
+  --fs-h3: 1.5rem;
+  --fs-lead: 1.0625rem;
+  --fs-body: 1rem;
+  --fs-small: .875rem;
+  --fs-eyebrow: .75rem;
+  --lh-tight: 1.05;
+  --lh-body: 1.5;
+  --ls-eyebrow: .2em;
+
+  /* layout */
+  --container: 1140px;
+  --gutter: 16px;
+  --section-y: 80px;
+  --gap-card: 16px;
+  --gap-col: 112px;
+}
+```
+
+```css
+/* componentes-base */
+.eyebrow { font-size: var(--fs-eyebrow); letter-spacing: var(--ls-eyebrow); text-transform: uppercase; font-weight: 500; color: var(--text-muted); }
+.pill { display: inline-flex; align-items: center; height: 28px; padding: 0 16px; border-radius: var(--r-full); background: var(--lime-100); color: var(--lime-text); font-size: var(--fs-eyebrow); letter-spacing: var(--ls-eyebrow); text-transform: uppercase; font-weight: 500; }
+.pill--dark { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.10); color: #C9DD7A; }
+.h2 { font-size: var(--fs-h2); line-height: var(--lh-tight); font-weight: 500; letter-spacing: -.01em; color: var(--text); }
+.btn-cta { display: inline-flex; align-items: center; justify-content: space-between; gap: 16px; min-width: 240px; height: 52px; padding: 0 4px 0 24px; border-radius: var(--r-md); background: var(--grad-cta); box-shadow: var(--sh-cta); color: var(--navy); font-size: .9375rem; font-weight: 500; letter-spacing: .04em; text-transform: uppercase; }
+.btn-cta .icon { display: grid; place-items: center; width: 44px; height: 44px; border-radius: var(--r-sm); background: var(--navy); color: #fff; }
+.icon-box { display: grid; place-items: center; width: 48px; height: 48px; border-radius: var(--r-md); background: var(--lime); color: var(--navy); }
+.icon-box--sm { width: 36px; height: 36px; border-radius: var(--r-sm); }
+.icon-box--navy { background: var(--navy); color: var(--lime); }
+.card { background: var(--surface); border-radius: var(--r-lg); padding: 28px; box-shadow: var(--sh-card); }
+.chip { display: inline-flex; align-items: center; height: 32px; padding: 0 18px; border-radius: var(--r-full); background: var(--chip); color: var(--navy); font-size: .9375rem; font-weight: 500; }
+.chip--active { background: var(--navy); color: #fff; }
+.input { height: 48px; padding: 0 18px; border: 1px solid var(--border); border-radius: 10px; background: #fff; font-size: 1rem; }
+.input::placeholder { color: var(--placeholder); }
+.faq-toggle { width: 32px; height: 32px; border-radius: var(--r-full); background: var(--chip); color: var(--navy); display: grid; place-items: center; }
+.faq-item[open] .faq-toggle { background: var(--lime); }
+```
+
+---
+
+## 8. Checklist de fidelidade
+
+- [ ] Container 1140 / conteúdo ≈1108 px e margens iguais em todas as seções.
+- [ ] Navbar como card flutuante com sombra, 8 px abaixo da barra lima.
+- [ ] Hero com foto fundida ao navy à esquerda, cantos inferiores arredondados e aba com chevron.
+- [ ] Três cards de Soluções com cores claro / lima / navy e links alinhados na base.
+- [ ] Chip de logotipo sobre a emenda das fotos da seção 4.
+- [ ] Bloco navy "Por que" com traço lima nos cards e onda assimétrica na base.
+- [ ] Carrossel com card ativo mais largo (540 vs 360) sangrando as bordas do viewport.
+- [ ] Timeline central lima com badges 01/02/03 e fotos em ziguezague.
+- [ ] Galeria masonry 3 colunas (alta/baixa alternadas) dentro de um bloco navy com ondas que sobem para a direita.
+- [ ] Mapa de MT em lima e selo circular sobre a foto da área de atendimento.
+- [ ] Duas trilhas de depoimentos extrapolando o container.
+- [ ] Card de contato 49/51 com foto tintada e formulário em 2 colunas.
+- [ ] FAQ com toggle lima no item aberto e card "Ainda com dúvidas?" na esquerda.
+- [ ] Footer navy com cantos superiores arredondados e 4 colunas (1.4 / 1 / 1 / 1.1).
+- [ ] Nomes, telefone e e-mail conferidos antes de ir para a tela.

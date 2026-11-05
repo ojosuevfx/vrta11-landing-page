@@ -634,14 +634,16 @@
   /* ---------- disclaimer + footer ---------- */
   .disclaimer{background:var(--gray-50);padding:40px 0;border-top:1px solid var(--gray-200)}
   .disclaimer p{font-size:.75rem;line-height:1.7;color:var(--body);max-width:900px}
-  .footer{background:var(--dark);color:#fff;padding:56px 0 40px}
-  .footer__grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:48px}
+  .footer{background:var(--dark);color:#fff;padding:36px 0 28px}
+  .footer__grid{display:block}
+  .footer__grid>div{display:grid;grid-template-columns:auto 1fr;column-gap:40px;align-items:center}
+  .footer__grid>div .logo{grid-row:span 2}
   .footer .logo{height:28px;width:auto}
-  .footer p{font-size:.75rem;color:var(--on-dark-muted);margin-top:18px;line-height:1.6;max-width:320px}
+  .footer p{font-size:.75rem;color:var(--on-dark-muted);line-height:1.6;max-width:640px}
   .footer h5{font-size:.8125rem;font-weight:700;margin-bottom:14px}
   .footer li{font-size:.8125rem;color:var(--on-dark-muted);line-height:2;display:flex;gap:8px;align-items:center}
   .footer li svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.75}
-  .footer__bar{margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;font-size:.75rem;color:var(--on-dark-muted)}
+  .footer__bar{margin-top:24px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;font-size:.75rem;color:var(--on-dark-muted)}
 
   /* ---------- responsivo ---------- */
   @media (max-width:1023px){
@@ -651,14 +653,14 @@
     .split{grid-template-columns:1fr;gap:32px}
     .split--media-right > .media{order:0}
     .grid-3,.grid-4{grid-template-columns:repeat(2,1fr)}
-    .footer__grid{grid-template-columns:1fr 1fr}
+    .footer__grid>div{column-gap:28px}
   }
   @media (max-width:767px){
     :root{--sy:48px}
     .grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
     .band__in{grid-template-columns:1fr}
     .band__badge{width:100px;height:100px}
-    .footer__grid{grid-template-columns:1fr;gap:28px}
+    .footer__grid>div{grid-template-columns:1fr;row-gap:14px} .footer__grid>div .logo{grid-row:auto}
     .footer__bar{flex-direction:column;gap:8px}
     .btn{width:100%}
   }
@@ -680,8 +682,7 @@
       <a href="#faq">Dúvidas</a>
     </nav>
     <div class="nav-right">
-      <a class="txt" href="https://www.fator.com.br/" target="_blank" rel="noopener">fator.com.br</a>
-      <a class="btn btn--navy btn--sm" href="#" data-link="a definir">Mais informações</a>
+      <a class="btn btn--navy btn--sm" href="https://far.fator.com.br/fundos/fator-verita/" target="_blank" rel="noopener">Mais informações</a>
       <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Abrir menu">
         <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
       </button>
@@ -694,7 +695,6 @@
     <a href="#carteira">Carteira</a>
     <a href="#rendimento">Rendimento</a>
     <a href="#faq">Dúvidas</a>
-    <a href="https://www.fator.com.br/" target="_blank" rel="noopener">fator.com.br</a>
   </nav>
 </header>
 
@@ -1057,23 +1057,7 @@
       <div>
         <svg class="logo" role="img" aria-label="Fator" viewBox="0 0 168 71" width="168" height="71" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.32 33.672v3.308a.502.502 0 01-.573.571H.96a.507.507 0 00-.573.57v4.149a.502.502 0 00.573.57h2.788a.507.507 0 01.574.571V69.85a.502.502 0 00.34.55.507.507 0 00.233.021h4.964a.507.507 0 00.573-.57V43.416a.501.501 0 01.34-.55.507.507 0 01.233-.02h4.85a.508.508 0 00.553-.34.502.502 0 00.02-.231v-4.154a.502.502 0 00-.572-.571h-4.851a.507.507 0 01-.573-.57v-4.527c0-1.56.65-2.854 2.635-2.854a7.275 7.275 0 011.839.229.504.504 0 00.726-.382l.92-3.803a.554.554 0 00-.38-.723 11.688 11.688 0 00-3.745-.61c-5.93.003-8.105 3.006-8.105 9.36zm31.257 22.28v1.444c0 4.109-2.406 8.333-8.402 8.333-5.155 0-6.53-1.865-6.53-4.792 0-2.4 1.029-5.555 6.493-5.555h7.866a.508.508 0 01.542.352.502.502 0 01.016.23l.015-.011zm71.308-19.02a8.383 8.383 0 00-6.494 2.93c-.266.378-.533.189-.533-.345V38.11a.503.503 0 00-.342-.55.51.51 0 00-.231-.021h-4.964a.511.511 0 00-.555.34.506.506 0 00-.021.23v31.743a.505.505 0 00.576.571h4.964a.506.506 0 00.555-.574V49.155c0-4.413 1.755-6.885 5.574-6.885a13.977 13.977 0 013.401.378c.38.076.613-.037.687-.418l.956-4.145a.522.522 0 00-.051-.44.537.537 0 00-.369-.247 10.9 10.9 0 00-3.169-.454l.016-.013zm-30.64 5.338c5.73 0 7.295 3.995 7.295 11.598 0 7.603-1.566 11.87-7.296 11.87s-7.79-4.273-7.79-11.87c0-7.597 2.057-11.598 7.79-11.598zm-22.73-11.062h-4.967a.508.508 0 00-.552.34.502.502 0 00-.02.231v5.21a.5.5 0 01-.342.55.508.508 0 01-.232.021h-2.175a.507.507 0 00-.573.57v4.149a.501.501 0 00.34.55.507.507 0 00.233.02h2.175a.51.51 0 01.553.34.5.5 0 01.02.231v18.097c0 6.773 3.249 9.462 8.672 9.462 2.213 0 2.826-.19 3.371-.418a.635.635 0 00.42-.648v-4.059c0-.418-.227-.57-.65-.455a7.871 7.871 0 01-2.365.342c-2.216 0-3.325-.916-3.325-3.663v-18.66a.501.501 0 01.341-.551.507.507 0 01.232-.02h5.5a.573.573 0 00.65-.495l.88-4.184c.113-.382-.077-.61-.497-.61H54.66a.507.507 0 01-.573-.572V31.77a.501.501 0 00-.342-.54.507.507 0 00-.228-.021zM31.17 37.56h-9.165a.507.507 0 00-.573.57v4.149a.501.501 0 00.34.55.507.507 0 00.233.02h7.943c3.818 0 5.614 1.295 5.614 4.832v2.51a.502.502 0 01-.573.57l-8.326-.037c-7.067 0-12.297 2.625-12.297 10.042C14.366 68.11 20.133 71 25.363 71c3.984 0 7.64-1.22 9.549-3.357.383-.382.65-.306.65.228v1.978a.503.503 0 00.573.571h4.967a.507.507 0 00.573-.57V46.908c0-6.468-3.735-9.358-10.505-9.358v.01zm45.068-.61c-9.585.036-13.9 5.515-13.9 16.927 0 11.412 4.354 17.12 13.9 17.12 9.545 0 13.406-5.708 13.406-17.12s-3.858-16.933-13.4-16.933l-.006.006z" fill="#FFFFFF"/><path fill-rule="evenodd" clip-rule="evenodd" d="M149.32.974a.92.92 0 00-.53.192l-5.743 4.15a1.304 1.304 0 00-.334 1.718l6.129 9.747c.144.226.306.357.462.357.157 0 .307-.159.433-.437l2.399-5.951a4.265 4.265 0 00.086-2.466l-2.188-6.715a.764.764 0 00-.714-.595zM140.859 7.362a4.277 4.277 0 00-1.385-2.045l-5.737-4.151a.92.92 0 00-.53-.192.77.77 0 00-.711.592l-2.185 6.714a1.297 1.297 0 00.742 1.585l10.698 4.3c.306.12.53.107.637-.027a.682.682 0 00.04-.559l-1.569-6.217zM119.553 11.433l2.191 6.715a1.311 1.311 0 001.244.885c.103.001.206-.01.306-.036l11.173-2.79c.276-.067.453-.195.49-.345.037-.15-.073-.342-.291-.525l-4.94-4.34c-.548-.458-1.615-1.068-2.329-1.068h-7.078c-.307 0-.549.332-.69.528a1.38 1.38 0 00-.076.976zM129.978 21.57c-.062-.144-.258-.238-.543-.257l-6.416-.436h-.154a4.37 4.37 0 00-2.227.687l-5.734 4.15a.823.823 0 00-.38.654.818.818 0 00.38.647l5.734 4.154a1.314 1.314 0 001.743-.217l7.404-8.809c.187-.225.254-.43.193-.573zM129.491 29.634a.704.704 0 00-.12-.525.286.286 0 00-.218-.086.855.855 0 00-.432.153l-5.451 3.406a4.273 4.273 0 00-1.532 1.944l-2.191 6.715a.859.859 0 00.076.766.83.83 0 00.69.32h7.106a1.326 1.326 0 001.284-1.22l.788-11.473zM133.685 35.89c-.144-.225-.306-.357-.459-.357-.154 0-.322.162-.435.44l-2.397 5.952a4.231 4.231 0 00-.083 2.466l2.185 6.715a.764.764 0 00.711.592.92.92 0 00.53-.192l5.737-4.151a1.304 1.304 0 00.334-1.718l-6.123-9.746zM141.668 45.31c.25.802.732 1.514 1.385 2.045l5.737 4.15a.92.92 0 00.533.193.764.764 0 00.708-.592l2.191-6.715a1.307 1.307 0 00-.745-1.587l-10.704-4.3a.972.972 0 00-.364-.083.306.306 0 00-.27.113.673.673 0 00-.043.555l1.572 6.22zM162.965 41.241l-2.191-6.715a1.315 1.315 0 00-1.225-.885c-.104 0-.206.013-.307.037l-11.2 2.79c-.276.067-.457.195-.49.344-.034.15.07.342.288.525l4.943 4.13c.674.51 1.484.809 2.328.86h7.091a.833.833 0 00.69-.32.863.863 0 00.073-.766zM152.525 31.15c.058.141.26.236.542.254l6.435.44h.154a4.38 4.38 0 002.227-.687l5.737-4.154a.81.81 0 00.38-.647.814.814 0 00-.377-.641l-5.737-4.148a1.258 1.258 0 00-.747-.238 1.308 1.308 0 00-.999.448l-7.425 8.821c-.169.202-.251.41-.19.553zM159.328 20.047a4.004 4.004 0 001.428-1.832l2.24-6.846a1.305 1.305 0 00-.071-.915c-.128-.18-.358-.507-.64-.507h-7.25c-.613 0-1.156.723-1.199 1.337l-.809 11.745a.813.813 0 00.111.54c.116.125.34.125.613-.034l5.577-3.488z" fill="#FAAF00"/></svg>
         <p>VRTA11 · Fator Verità, FII de papel gerido pela Fator Administração de Recursos (FAR). Listado na B3 desde 2011, financia grandes construtoras por meio de CRIs e distribui o resultado todo mês.</p>
-        <p style="margin-top:10px">Material publicitário. © Fator. Todos os direitos reservados.</p>
-      </div>
-      <div>
-        <h5>Contato</h5>
-        <ul>
-          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>fator.com.br</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="m4 7 8 6 8-6"/></svg>E-mail a definir</li>
-          <li><svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.6a2 2 0 0 1-.5 2.1L8.1 9.6a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.8.3 1.7.6 2.6.7a2 2 0 0 1 1.7 2z"/></svg>Telefone a definir</li>
-        </ul>
-      </div>
-      <div>
-        <h5>Políticas</h5>
-        <ul>
-          <li><a href="#" data-link="a definir">Regulamento do fundo</a></li>
-          <li><a href="#" data-link="a definir">Relatórios gerenciais</a></li>
-          <li><a href="#" data-link="a definir">Política de privacidade</a></li>
-        </ul>
+        <p style="margin-top:6px">Material publicitário. © Fator. Todos os direitos reservados.</p>
       </div>
     </div>
     <div class="footer__bar">

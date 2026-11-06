@@ -190,7 +190,8 @@
   .pf-block.is-in .cmp__fill{width:var(--w)}
   .cmp__gap{position:absolute;left:var(--w);top:0;bottom:0;right:0;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .5s ease .9s}
   .pf-block.is-in .cmp__gap{opacity:1}
-  .cmp__gap i{font-style:normal;font-size:.6875rem;font-weight:700;color:var(--text);background:#fff;border:1px dashed var(--gray-300);border-radius:999px;padding:3px 8px;white-space:nowrap;transform:translateX(50%)}
+  .cmp__gap i{font-style:normal;font-size:.6875rem;font-weight:700;color:var(--text);background:#fff;border:1px dashed var(--gray-300);border-radius:999px;padding:3px 8px;white-space:nowrap;position:absolute;right:0;top:calc(100% + 6px)}
+  .cmp__row:last-child{margin-bottom:30px}
   .cmp__val{font-size:1.0625rem;font-weight:700;color:var(--text);text-align:right;white-space:nowrap}
   @media (max-width:767px){
     .pf{grid-template-columns:1fr;gap:28px}
@@ -737,10 +738,10 @@
     <div class="block-center">
       <span class="kicker">Sobre o VRTA11</span>
       <h2 class="h2 mt-12">Um dos fundos de papel mais antigos da B3</h2>
-      <p class="lead mt-16">O VRTA11 (Fator Verità) é um FII de papel gerido pela Fator Administração de Recursos (FAR) e administrado pelo Banco Fator, listado na B3 desde 2011 e um dos fundos de papel mais antigos da bolsa. A tese combina crédito imobiliário de grandes construtoras, garantias reais e uma carteira com mais de 60% em operações com metodologia interna de classificação de Investment Grade.</p>
+      <p class="lead mt-16">O VRTA11 (Fator Verità) é um FII de papel gerido pela Fator Administração de Recursos (FAR) e administrado pelo Banco Fator, listado na B3 desde 2011 e um dos fundos de papel mais antigos da bolsa. A tese combina crédito imobiliário de grandes construtoras, garantias reais e uma carteira com 57,56% em operações com rating de AAA a A-, pela metodologia interna de rating da FAR.</p>
       <div class="stats stats--text mt-24" role="list">
         <div role="listitem"><span class="stats__ico"><svg viewBox="0 0 24 24"><path d="M12 2 3 7v5c0 5 3.8 9.7 9 11 5.2-1.3 9-6 9-11V7z"/></svg></span><div class="stats__v">Garantias reais</div><p class="stats__l">Alienação fiduciária e cessão de recebíveis.</p></div>
-        <div role="listitem"><span class="stats__ico"><svg viewBox="0 0 24 24"><path d="m3 17 6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></span><div class="stats__v">Investment Grade</div><p class="stats__l">Mais de 60% da carteira, com ratings de AAA a A.</p></div>
+        <div role="listitem"><span class="stats__ico"><svg viewBox="0 0 24 24"><path d="m3 17 6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></span><div class="stats__v">Rating AAA a A-</div><p class="stats__l">57,56% da carteira, pela metodologia interna da FAR.</p></div>
         <div role="listitem"><span class="stats__ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></span><div class="stats__v">Desde 2011</div><p class="stats__l">15 anos de histórico na bolsa.</p></div>
       </div>
     </div>
@@ -865,8 +866,8 @@
     <div class="pf-block" data-reveal>
       <h3 class="h3">Qualidade de crédito e garantias</h3>
       <div class="meter">
-        <div class="meter__bar"><span class="meter__fill" style="--w:60%"><em>+60%</em></span></div>
-        <div class="meter__labels"><span><i class="meter__dot meter__dot--on"></i>Investment Grade · ratings de AAA a A (metodologia interna)</span><span><i class="meter__dot"></i>Demais operações</span></div>
+        <div class="meter__bar"><span class="meter__fill" style="--w:57.56%"><em>57,56%</em></span></div>
+        <div class="meter__labels"><span><i class="meter__dot meter__dot--on"></i>Ratings de AAA a A- (metodologia interna da FAR)</span><span><i class="meter__dot"></i>Demais ativos</span></div>
       </div>
       <ul class="pf-checks" role="list">
         <li><span class="tk"><svg viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg></span>Alienação fiduciária</li>
@@ -970,8 +971,8 @@
           <article class="sc" tabindex="0">
             <div class="sc__in">
               <div class="sc__ico"><svg viewBox="0 0 24 24"><path d="m3 17 6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></div>
-              <h3>Investment Grade</h3>
-              <p>Mais de 60% da carteira com ratings de AAA a A, por metodologia interna.</p>
+              <h3>Rating AAA a A-</h3>
+              <p>57,56% da carteira com ratings de AAA a A-, pela metodologia interna da FAR.</p>
             </div>
             <div class="sc__shadow" aria-hidden="true"></div>
           </article>
